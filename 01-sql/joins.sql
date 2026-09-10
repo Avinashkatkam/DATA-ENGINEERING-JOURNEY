@@ -329,6 +329,39 @@ Marketing | 0
 ```
 
 ---
+    CREATE TABLE department (
+    dept_id INT PRIMARY KEY,
+    department_name VARCHAR(50),
+    location VARCHAR(50)
+);
+INSERT INTO department
+(dept_id, department_name, location)
+VALUES
+(101, 'IT', 'Hyderabad'),
+(102, 'HR', 'Chennai'),
+(103, 'Sales', 'Mumbai'),
+(104, 'Finance', 'Delhi'),
+(106, 'Marketing', 'Bangalore');
+select* from department;
+Alter table department Rename column location to city;
+
+#RIGHT JOIN 
+
+SELECT employee_name, department_name
+FROM department
+RIGHT JOIN employees
+USING (dept_id);
+
+SELECT employee_name, department_name, salary
+FROM employees
+RIGHT JOIN department
+USING (dept_id);
+
+SELECT department_name, employee_name
+FROM employees
+RIGHT JOIN department
+USING (dept_id)
+WHERE employee_name IS NULL;
 
 # JOIN Concepts Learned
 
@@ -407,7 +440,7 @@ LIMIT
 * ✅ SQL Basics
 * ✅ INNER JOIN
 * ✅ LEFT JOIN
-* 🔄 RIGHT JOIN
+* done RIGHT JOIN
 * ⏳ FULL OUTER JOIN
 * ⏳ SELF JOIN
 * ⏳ CROSS JOIN

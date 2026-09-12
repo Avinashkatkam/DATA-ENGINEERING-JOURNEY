@@ -362,6 +362,226 @@ FROM employees
 RIGHT JOIN department
 USING (dept_id)
 WHERE employee_name IS NULL;
+# RIGHT JOIN Practice
+
+---
+
+## 1. Basic RIGHT JOIN
+
+```sql
+SELECT employee_name,
+       department_name
+FROM employees
+RIGHT JOIN department
+USING (dept_id);
+```
+
+---
+
+## 2. RIGHT JOIN with Salary
+
+```sql
+SELECT employee_name,
+       department_name,
+       salary
+FROM employees
+RIGHT JOIN department
+USING (dept_id);
+```
+
+---
+
+## 3. RIGHT JOIN with IS NULL
+
+```sql
+SELECT department_name,
+       employee_name
+FROM employees
+RIGHT JOIN department
+USING (dept_id)
+WHERE employee_name IS NULL;
+```
+
+---
+
+## 4. RIGHT JOIN with GROUP BY and COUNT
+
+```sql
+SELECT d.department_name,
+       COUNT(e.employee_name) AS employee_count
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+GROUP BY d.department_name;
+```
+
+---
+
+## 5. RIGHT JOIN with GROUP BY, SUM, ORDER BY and LIMIT
+
+```sql
+SELECT d.department_name,
+       SUM(e.salary) AS total_salary
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+GROUP BY d.department_name
+ORDER BY total_salary DESC
+LIMIT 1;
+```
+
+---
+
+## 6. RIGHT JOIN with WHERE
+
+```sql
+SELECT d.department_name,
+       e.employee_name,
+       e.salary
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+WHERE e.salary > 50000;
+```
+
+---
+
+## 7. RIGHT JOIN with AVG, GROUP BY, ORDER BY and LIMIT
+
+```sql
+SELECT d.department_name,
+       AVG(e.salary) AS average_salary
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+GROUP BY d.department_name
+ORDER BY average_salary DESC
+LIMIT 1;
+```
+
+---
+
+## 8. RIGHT JOIN with HAVING and Subquery
+
+```sql
+SELECT d.department_name,
+       COUNT(e.employee_name) AS employee_count,
+       AVG(e.salary) AS average_salary
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+GROUP BY d.department_name
+HAVING AVG(e.salary) > (
+    SELECT AVG(salary)
+    FROM employees
+);
+```
+
+---
+
+## 9. RIGHT JOIN with SUM and HAVING
+
+```sql
+SELECT department_name,
+       COUNT(employee_name) AS employee_count,
+       SUM(e.salary) AS total_salary
+FROM employees e
+RIGHT JOIN department d
+USING (dept_id)
+GROUP BY department_name
+HAVING total_salary > 100000;
+```
+
+---
+
+## 10. RIGHT JOIN with MAX and HAVING
+
+```sql
+SELECT d.department_name,
+       MAX(e.salary) AS highest_salary
+FROM employees e
+RIGHT JOIN department d
+USING (dept_id)
+GROUP BY d.department_name
+HAVING MAX(e.salary) > 55000;
+```
+
+---
+
+## Concepts Covered
+
+* RIGHT JOIN
+* RIGHT JOIN with USING
+* RIGHT JOIN with ON
+* RIGHT JOIN with WHERE
+* RIGHT JOIN with IS NULL
+* RIGHT JOIN with GROUP BY
+* RIGHT JOIN with COUNT
+* RIGHT JOIN with SUM
+* RIGHT JOIN with AVG
+* RIGHT JOIN with MAX
+* RIGHT JOIN with HAVING
+* RIGHT JOIN with ORDER BY
+* RIGHT JOIN with LIMIT
+* RIGHT JOIN with Subquery
+ FULLL OUTER JOIN 
+
+
+#FULL OUTER JOIN 
+SELECT e.employee_name,
+       d.department_name,
+       e.city
+FROM employees e
+LEFT JOIN department d
+ON e.dept_id = d.dept_id
+
+UNION
+
+SELECT e.employee_name,
+       d.department_name,
+       d.city
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id;
+
+SELECT d.department_name,
+       e.employee_name,
+       e.salary
+FROM employees e
+LEFT JOIN department d
+ON e.dept_id = d.dept_id
+WHERE e.salary > 50000
+
+UNION
+
+SELECT d.department_name,
+       e.employee_name,
+       e.salary
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+WHERE e.salary > 50000 OR e.emp_id IS NULL;
+
+SELECT d.department_name,
+       e.employee_name,
+       e.salary
+FROM employees e
+LEFT JOIN department d
+ON e.dept_id = d.dept_id
+WHERE e.salary > 45000
+
+UNION
+
+SELECT d.department_name,
+       e.employee_name,
+       e.salary
+FROM employees e
+RIGHT JOIN department d
+ON e.dept_id = d.dept_id
+WHERE e.salary > 45000
+   OR e.emp_id IS NULL
+
+ORDER BY salary DESC;
 
 # JOIN Concepts Learned
 
@@ -393,7 +613,9 @@ Returns all records from the right table and matching records from the left tabl
 RIGHT JOIN
    ↓
 All RIGHT + Matching LEFT
-```
+
+FULL outer join 
+return all records from the right join and the left join inclues all the null values 
 
 ---
 
@@ -413,35 +635,3 @@ ORDER BY
 LIMIT
 ```
 
-Easy way to remember:
-
-```text
-FROM
-  ↓
-JOIN
-  ↓
-ON
-  ↓
-WHERE
-  ↓
-GROUP BY
-  ↓
-HAVING
-  ↓
-ORDER BY
-  ↓
-LIMIT
-```
-
----
-
-# Progress
-
-* ✅ SQL Basics
-* ✅ INNER JOIN
-* ✅ LEFT JOIN
-* done RIGHT JOIN
-* ⏳ FULL OUTER JOIN
-* ⏳ SELF JOIN
-* ⏳ CROSS JOIN
-* ⏳ Advanced SQL
